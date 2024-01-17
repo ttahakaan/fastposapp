@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           } else {
             return Scaffold(
               body: Center(
-                child: Text('Uygulama yalnızca yatay modda kullanılabilir.'),
+                child: Text('The app can only be used in landscape mode.'),
               ),
             );
           }
