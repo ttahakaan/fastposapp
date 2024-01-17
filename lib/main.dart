@@ -1,9 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fastposapp/splash_screen/splash_screen.dart';
 import 'package:fastposapp/view/fastpos_webview.dart';
-import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,9 +18,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Wakelock.enable;
+
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Fast POS',
-        home: SplashScreen());
+      debugShowCheckedModeBanner: false,
+      title: 'Fast POS',
+      home: OrientationBuilder(
+        builder: (context, orientation) {
+          if (orientation == Orientation.landscape) {
+            return SplashScreen();
+          } else {
+            return Scaffold(
+              body: Center(
+                child: Text('Uygulama yalnızca yatay modda kullanılabilir.'),
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 }
